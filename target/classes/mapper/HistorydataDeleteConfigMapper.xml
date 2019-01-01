@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wisdom.separate.dao.HistorydataDeleteConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.wisdom.separate.model.HistorydataDeleteConfig" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="tablename" property="tableName" jdbcType="VARCHAR" />
+    <result column="positionindex" property="positionIndex" jdbcType="BIGINT" />
+    <result column="createtime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="flag" property="flag" jdbcType="SMALLINT" />
+    <result column="daycount" property="dayCount" jdbcType="SMALLINT" />
+    <result column="deletecount" property="deleteCount" jdbcType="BIGINT" />
+    <result column="priority" property="priority" jdbcType="SMALLINT" />
+    <result column="maxid" property="maxId" jdbcType="BIGINT" />
+  </resultMap>
+  
+   <!--获取运行同步的表-->
+    <select id="getTableConfigList" resultMap="BaseResultMap">
+    SELECT  id,tablename,positionindex,count,flag,createtime,updatetime,deletecount,daycount,priority
+    FROM  wisdom_historydata_delete_config
+    WHERE  flag=1;
+    </select>
+
+    <!--修改同步位置、更新插入数-->
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.wisdom.separate.model.HistorydataDeleteConfig">
+        update wisdom_historydata_delete_config set positionindex=#{positionIndex,jdbcType=BIGINT},
+           deletecount=#{deleteCount,jdbcType=BIGINT} ,
+           maxid=#{maxId,jdbcType=BIGINT},
+           updatetime=now()
+        WHERE  id=#{id,jdbcType=BIGINT}
+    </update>
+ 
+</mapper>
